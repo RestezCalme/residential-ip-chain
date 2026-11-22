@@ -1,0 +1,16 @@
+
+# ---- 方案 B：住宅 IP 出口（追加到 /etc/hysteria/config.yaml 末尾）----
+outbounds:
+  - name: direct          # 第一个是默认出口：其他流量照常直连
+    type: direct
+  - name: residential
+    type: socks5
+    socks5:
+      addr: __RES_IP__:__RES_PORT__
+      username: __RES_USER__
+      password: __RES_PASS__
+
+acl:
+  inline:
+    - residential(suffix:__SITE__)   # 每个网站一行，写在 direct(all) 前面
+    - direct(all)

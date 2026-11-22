@@ -1,0 +1,26 @@
+# 方案 A：客户端串联（Clash Verge / mihomo）
+# 把三段分别合并进你配置文件里对应的 proxies: / proxy-groups: / rules: 下面。
+# __RES_IP__ 等占位符换成住宅代理的连接信息；__SITE__ 换成需要住宅 IP 的网站域名。
+
+proxies:
+  - name: 🏠 住宅IP
+    type: socks5
+    server: __RES_IP__
+    port: __RES_PORT__
+    username: __RES_USER__
+    password: __RES_PASS__
+    udp: false
+    # 先经自己的节点（穿墙），再连住宅 IP。
+    # 必须指向「不包含 🏠 住宅IP」的节点或分组，否则会形成循环。
+    dialer-proxy: 🚀 节点选择
+
+proxy-groups:
+  - name: 🏠 住宅出口
+    type: select
+    proxies:
+      - 🏠 住宅IP        # 默认：走住宅 IP
+      - 🚀 节点选择      # 住宅代理出问题时，可临时切回普通节点
+
+rules:
+  # 放在 rules: 的最前面，排在其他规则之前才会生效。每个网站一行。
+  - DOMAIN-SUFFIX,__SITE__,🏠 住宅出口

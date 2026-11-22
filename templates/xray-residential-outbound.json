@@ -1,0 +1,22 @@
+{
+  "outbound": {
+    "tag": "residential",
+    "protocol": "socks",
+    "settings": {
+      "servers": [
+        {
+          "address": "__RES_IP__",
+          "port": __RES_PORT__,
+          "users": [
+            { "user": "__RES_USER__", "pass": "__RES_PASS__" }
+          ]
+        }
+      ]
+    }
+  },
+  "rule": {
+    "type": "field",
+    "domain": ["domain:__SITE__"],
+    "outboundTag": "residential"
+  }
+}
